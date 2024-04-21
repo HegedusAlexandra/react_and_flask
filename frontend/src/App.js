@@ -5,43 +5,27 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-	// usestate for setting a javascript
-	// object for storing and using data
-	const [data, setdata] = useState({
-		name: "",
-		age: 0,
-		date: "",
-		programming: "",
-	});
+	const [data, setData] = useState([]);
 
-	// Using useEffect for single rendering
 	useEffect(() => {
-		// Using fetch to fetch the api from 
-		// flask server it will be redirected to proxy
-		fetch("/data").then((res) =>
-			res.json().then((data) => {
-				// Setting a data from api
-				setdata({
-					name: data.Name,
-					age: data.Age,
-					date: data.Date,
-					programming: data.programming,
-				});
+		fetch("/rooms") 
+			.then((res) => res.json())
+			.then((data) => {
+				setData(data);
 			})
-		);
+			.catch((error) => console.error('Error fetching room data:', error));
 	}, []);
 
 	return (
-		<div className="App">
-			<header className="App-header">
-				<h1>React and flask</h1>
-				{/* Calling a data from setdata for showing */}
-				<p>{data.name}</p>
-				<p>{data.age}</p>
-				<p>{data.date}</p>
-				<p>{data.programming}</p>
-
-			</header>
+		<div className="w-[100%] h-[100vh] bg-main bg-cover bg-black/20">
+			{/* {data.map((room) => (
+				<div key={room.szobaszam}>
+					<p>Szobaszám: {room.szobaszam}</p>
+					<p>Ár: {room.ar}</p>
+					<p>Típus: {room.tipus}</p>
+					<p>Kilátás: {room.kilatas}</p>
+				</div>
+			))} */}
 		</div>
 	);
 }

@@ -39,3 +39,21 @@ npx create-react-app frontend
 ### start frontedn part also - change to frontend folder
 
 npm run start
+
+## tailwind
+
+### run command in the frontend folder
+
+npm install -D tailwindcss
+npx tailwindcss init
+
+## ad to the tailwind config file
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{html,js,jsx,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
