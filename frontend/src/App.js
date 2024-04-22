@@ -3,22 +3,27 @@
 // Importing modules
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Layout from "./pages/Layout";
+import Landing from "./pages/Landing";
 
 function App() {
-	const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-	useEffect(() => {
-		fetch("/rooms") 
-			.then((res) => res.json())
-			.then((data) => {
-				setData(data);
-			})
-			.catch((error) => console.error('Error fetching room data:', error));
-	}, []);
+  useEffect(() => {
+    fetch("/rooms")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => console.error("Error fetching room data:", error));
+  }, []);
 
-	return (
-		<div className="w-[100%] h-[100vh] bg-main bg-cover bg-black/20">
-			{/* {data.map((room) => (
+  return (
+    <div className="w-[100%] h-fit">
+      <Layout>
+        <Landing />
+      </Layout>
+      {/* {data.map((room) => (
 				<div key={room.szobaszam}>
 					<p>Szobaszám: {room.szobaszam}</p>
 					<p>Ár: {room.ar}</p>
@@ -26,8 +31,8 @@ function App() {
 					<p>Kilátás: {room.kilatas}</p>
 				</div>
 			))} */}
-		</div>
-	);
+    </div>
+  );
 }
 
 export default App;
