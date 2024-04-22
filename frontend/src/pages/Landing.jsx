@@ -8,9 +8,9 @@ export default function Landing() {
   const [value, onChange] = useState(new Date());
 
   return (
-    <section className="w-[100%] h-[100vh] bg-main bg-cover bg-black/20">
-      <div className="flex flex-col justify-center items-center w-[100%] h-[100vh] bg-gradient-to-b from-black/20 from-50% to-zinc-800">
-        <div className="absolute z-10 left-[64vw] top-[9vh] flex justify-center items-center size-[20vh] bg-[#8C8D01] rounded-full shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)]">
+    <section className="w-[100%] h-[90vh] bg-main bg-cover bg-black/10 overflow-hidden">
+      <div className="flex flex-col justify-center items-center w-[100%] h-[100vh] bg-gradient-to-b from-transparent from-70% to-90% to-zinc-800">
+        <div className="absolute z-10 left-[64vw] top-[9vh] flex justify-center items-center size-[20vh] bg-[#bfd0e6] rounded-full shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)]">
           <Lottie animationData={contact} loop={true} />
           <button className="absolute size-[20vh] animate-pulse">
             <span class="material-symbols-outlined">call</span>
@@ -19,7 +19,7 @@ export default function Landing() {
         <CalendarContainer>
           <Calendar calendarType="US" />
         </CalendarContainer>
-        <button className="px-[10vh] py-[1vh] rounded-2xl bg-[#1B4A04] font-sans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[2vh] text-lime-50">Foglalás</button>
+        <button className="px-[10vh] py-[1vh] rounded-2xl bg-[#ff9634] font-sans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[2vh] text-orange-950">Foglalás</button>
       </div>
     </section>
   );
@@ -60,11 +60,11 @@ const CalendarContainer = styled.div`
     padding: 5px 0;
 
     &:hover {
-      background-color: #556b55;
+      background-color: #BFD0E6;
     }
 
     &:active {
-      background-color: #a5c1a5;
+      background-color:#BFD0E6;
     }
   }
 
@@ -85,7 +85,7 @@ const CalendarContainer = styled.div`
   }
 
   .react-calendar__tile--range {
-    background: #8c8d01;
+    background:#A25709;
     box-shadow: 0 0 6px 2px black;
   }
 

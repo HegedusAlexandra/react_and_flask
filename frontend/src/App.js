@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-[100%] h-fit">
+    <div className="w-[100%]">
       <Layout>
         <Landing />
       </Layout>
