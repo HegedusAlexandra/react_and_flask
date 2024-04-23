@@ -6,10 +6,11 @@ import styled from "styled-components";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
+import { af } from "date-fns/locale";
 
 export default function Landing({ data }) {
   const [checkDate, setCheckDate] = useState(false);
-  const [singleOrDouble, setSingleOrDouble] = useState('all');
+  const [singleOrDouble, setSingleOrDouble] = useState("all");
   const [choosenRooms, setChoosenRooms] = useState([]);
   const [state, setState] = useState([
     {
@@ -19,10 +20,14 @@ export default function Landing({ data }) {
     }
   ]);
 
+  console.log("====================================");
+  console.log(choosenRooms, choosenRooms.includes(2));
+  console.log("====================================");
+
   return (
     <section className="w-[100%] h-[90vh] bg-main bg-cover bg-black/10 overflow-hidden">
       <div className="flex flex-col justify-center items-center w-[100%] h-[100vh] bg-gradient-to-b from-transparent from-70% to-90% to-zinc-800">
-        <div className="absolute z-10 right-[28vw] top-[20vh] flex justify-center items-center size-[20vh] bg-[#bfd0e6] rounded-full shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)]">
+        <div className="absolute z-10 right-[26vw] top-[10vh] flex justify-center items-center size-[20vh] bg-[#bfd0e6] rounded-full shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)]">
           <Lottie animationData={contact} loop={true} />
           <button className="absolute size-[20vh] animate-pulse">
             <span class="material-symbols-outlined">call</span>
@@ -79,31 +84,59 @@ export default function Landing({ data }) {
               : "Időpontot választok"
             : "Foglalás"}
         </button>
-        <div className="w-[80vw] h-[50vh] rounded-[3px] overflow-scroll overflow-x-hidden bg-sky-100">
-          {checkDate && data?.map((room) => (
-            <div
-              className="w-[80vw] px-[2vw] flex flex-row justify-between py-[2vh]"
-              key={room.szobaszam}
-            >
-              <p className="w-[25%] justify-start text-[2vh]"> {room.szobaszam}</p>
-              <p className="w-[25%] justify-start text-[2vh]"> {room.ar}</p>
-              <p className="w-[25%] justify-start text-[2vh]"> {room.tipus}</p>
-              <p className="w-[25%] justify-start text-[2vh]"> {room.kilatas}</p>
-              <button onClick={() => setChoosenRooms(...choosenRooms,data.szobaszam)} className="flex justify-center items-center w-[4.5vh] h-[3vh] border-solid border-2 border-orange-400 rounded-full">
-                {choosenRooms.includes(room.szobaszam) && <div className="w-[3vh] h-[2vh] bg-orange-400 rounded-full"></div>}
-              </button>
+        {checkDate && (
+          <>
+            <div className="w-[80vw] h-[50vh] rounded-[3px] overflow-scroll overflow-x-hidden bg-sky-100 pb-[5vh]">
+              {checkDate &&
+                data?.map((room) => (
+                  <div
+                    className="w-[80vw] px-[2vw] flex flex-row justify-between py-[2vh]"
+                    key={room.szobaszam}
+                  >
+                    <p className="w-[25%] justify-start text-[2vh]">
+                     
+                      {room.szobaszam}
+                    </p>
+                    <p className="w-[25%] justify-start text-[2vh]">
+                      
+                      {room.ar}
+                    </p>
+                    <p className="w-[25%] justify-start text-[2vh]">
+                     
+                      {room.tipus}
+                    </p>
+                    <p className="w-[25%] justify-start text-[2vh]">
+                 
+                      {room.kilatas}
+                    </p>
+                    <button
+                      onClick={() =>
+                        choosenRooms.indexOf(room.szobaszam) === -1
+                          ? setChoosenRooms([...choosenRooms, room.szobaszam])
+                          : setChoosenRooms(
+                              choosenRooms.filter(
+                                (item) => item !== room.szobaszam
+                              )
+                            )
+                      }
+                      className="flex justify-center items-center w-[4.5vh] h-[3vh] border-solid border-2 border-orange-400 rounded-full"
+                    >
+                      {choosenRooms.includes(room.szobaszam) && (
+                        <div className="w-[3vh] h-[2vh] bg-orange-400 rounded-full"></div>
+                      )}
+                    </button>
+                  </div>
+                ))}
             </div>
-          ))}
-        </div>
-        <button 
-          className="px-[6vh] py-[1vh] rounded-2xl bg-[#ff9634] font-opensans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[4vh] text-orange-950"
-        >
-          {checkDate
-            ? state[0].endDate
-              ? "Lefoglalom, tovább a fizetésre"
-              : "Időpontot választok"
-            : "Foglalás"}
-        </button>
+            <button className="px-[6vh] py-[1vh] rounded-2xl bg-[#ff9634] font-opensans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[4vh] text-orange-950">
+              {checkDate
+                ? state[0].endDate
+                  ? "Lefoglalom, tovább a fizetésre"
+                  : "Időpontot választok"
+                : "Foglalás"}
+            </button>
+          </>
+        )}
       </div>
     </section>
   );
