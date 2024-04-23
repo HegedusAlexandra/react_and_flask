@@ -5,8 +5,12 @@ import { DateRange } from "react-date-range";
 import styled from "styled-components";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { format } from "date-fns";
 
-export default function Landing() {
+export default function Landing({ data }) {
+  const [checkDate, setCheckDate] = useState(false);
+  const [singleOrDouble, setSingleOrDouble] = useState('all');
+  const [choosenRooms, setChoosenRooms] = useState([]);
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -14,19 +18,6 @@ export default function Landing() {
       key: "selection"
     }
   ]);
-
-  // Function to apply styles to elements within the range
-  const applyStylesWithinRange = () => {
-    const rangeElements = document.querySelectorAll(".rdrInRange .rdrDay");
-    rangeElements.forEach((element) => {
-      element.style.background = "orange";
-    });
-  };
-
-  // useEffect hook to apply styles within the range when the component mounts
-  useEffect(() => {
-    applyStylesWithinRange();
-  }, []);
 
   return (
     <section className="w-[100%] h-[90vh] bg-main bg-cover bg-black/10 overflow-hidden">
@@ -37,18 +28,81 @@ export default function Landing() {
             <span class="material-symbols-outlined">call</span>
           </button>
         </div>
-        <CalendarContainer>
-          <DateRange
-            className="bg-white/80 backdrop-blur-sm p-[2vh] rounded-sm"
-            editableDateInputs={true}
-            onChange={(item) => setState([item.selection])}
-            moveRangeOnFirstSelection={false}
-            ranges={state}
-            rangeColors={["#f33e5b"]}
-          />
+        <CalendarContainer
+          className={
+            checkDate
+              ? "flex justify-center p-[50px] py-[16px] pb-[32px] w-[80vw]"
+              : "p-[50px] "
+          }
+        >
+          {checkDate ? (
+            <div className="rdrDateDisplay">
+              <div className="flex flex-row text-sky-100 font-opensans tracking-wider">
+                <p
+                  style={{
+                    textShadow: "1px 1px 2px #000000aa",
+                    fontFamily: "Open Sans, sans-serif"
+                  }}
+                >
+                  {format(state[0].startDate, "yyyy.MM.dd")} -{" "}
+                </p>
+                <p
+                  style={{
+                    textShadow: "1px 1px 2px #000000aa",
+                    fontFamily: "Open Sans, sans-serif"
+                  }}
+                >
+                  {state[0].endDate
+                    ? format(state[0].endDate, "yyyy.MM.dd")
+                    : "Select end date"}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <DateRange
+              className="bg-white/80 backdrop-blur-sm p-[2vh] rounded-sm"
+              editableDateInputs={true}
+              onChange={(item) => setState([item.selection])}
+              moveRangeOnFirstSelection={false}
+              ranges={state}
+              rangeColors={["#f33e5b"]}
+            />
+          )}
         </CalendarContainer>
-        <button className="px-[10vh] py-[1vh] rounded-2xl bg-[#ff9634] font-sans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[4vh] text-orange-950">
-          Foglalás
+        <button
+          onClick={() => setCheckDate(!checkDate)}
+          className="px-[6vh] py-[1vh] rounded-2xl bg-[#ff9634] font-opensans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[4vh] text-orange-950"
+        >
+          {checkDate
+            ? state[0].endDate
+              ? "Másik időpontot választok"
+              : "Időpontot választok"
+            : "Foglalás"}
+        </button>
+        <div className="w-[80vw] h-[50vh] rounded-[3px] overflow-scroll overflow-x-hidden bg-sky-100">
+          {checkDate && data?.map((room) => (
+            <div
+              className="w-[80vw] px-[2vw] flex flex-row justify-between py-[2vh]"
+              key={room.szobaszam}
+            >
+              <p className="w-[25%] justify-start text-[2vh]"> {room.szobaszam}</p>
+              <p className="w-[25%] justify-start text-[2vh]"> {room.ar}</p>
+              <p className="w-[25%] justify-start text-[2vh]"> {room.tipus}</p>
+              <p className="w-[25%] justify-start text-[2vh]"> {room.kilatas}</p>
+              <button onClick={() => setChoosenRooms(...choosenRooms,data.szobaszam)} className="flex justify-center items-center w-[4.5vh] h-[3vh] border-solid border-2 border-orange-400 rounded-full">
+                {choosenRooms.includes(room.szobaszam) && <div className="w-[3vh] h-[2vh] bg-orange-400 rounded-full"></div>}
+              </button>
+            </div>
+          ))}
+        </div>
+        <button 
+          className="px-[6vh] py-[1vh] rounded-2xl bg-[#ff9634] font-opensans uppercase shadow-[2px_15px_10px_5px_rgba(0,0,0,0.6)] -translate-y-[4vh] text-orange-950"
+        >
+          {checkDate
+            ? state[0].endDate
+              ? "Lefoglalom, tovább a fizetésre"
+              : "Időpontot választok"
+            : "Foglalás"}
         </button>
       </div>
     </section>
@@ -56,10 +110,7 @@ export default function Landing() {
 }
 
 const CalendarContainer = styled.div`
-
-
   backdrop-filter: blur(10px);
-  padding: 50px;
   border-radius: 3px;
   font-family: "Open Sans", sans-serif;
 

@@ -21,16 +21,8 @@ function App() {
   return (
     <div className="w-[100%]">
       <Layout>
-        <Landing />
+        <Landing data={data}/>
       </Layout>
-      {/* {data.map((room) => (
-				<div key={room.szobaszam}>
-					<p>Szobaszám: {room.szobaszam}</p>
-					<p>Ár: {room.ar}</p>
-					<p>Típus: {room.tipus}</p>
-					<p>Kilátás: {room.kilatas}</p>
-				</div>
-			))} */}
     </div>
   );
 }
